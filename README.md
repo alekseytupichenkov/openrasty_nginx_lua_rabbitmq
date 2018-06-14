@@ -1,7 +1,7 @@
 OpenResty (Nginx) -> Lua -> RabbitMQ 
 ====================================
 
-Task: Send all POST data from nginx to RabbitMQ
+Task: Wrire post data to RabbitMQ through OpenResty (nginx + lua)
 
 Links
 - [OpenRasty](https://github.com/openresty/openresty)
@@ -18,4 +18,66 @@ curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"foo":"bar","test":1}' \
   http://localhost/rabbitmq
+```
+
+Performance test, all running on my Mac using docker, so it's not so fast :)
+When I'll deploy this to production server, I'll write about performance on it
+```bash
+ab -T 'application/json' -n 1000 -p post.json http://127.0.0.1/rabbitmq
+This is ApacheBench, Version 2.3 <$Revision: 1826891 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        openresty/1.13.6.1
+Server Hostname:        127.0.0.1
+Server Port:            80
+
+Document Path:          /rabbitmq
+Document Length:        17 bytes
+
+Concurrency Level:      1
+Time taken for tests:   13.154 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      185000 bytes
+Total body sent:        160000
+HTML transferred:       17000 bytes
+Requests per second:    76.02 [#/sec] (mean)
+Time per request:       13.154 [ms] (mean)
+Time per request:       13.154 [ms] (mean, across all concurrent requests)
+Transfer rate:          13.73 [Kbytes/sec] received
+                        11.88 kb/s sent
+                        25.61 kb/s total
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:    11   13   2.2     12      37
+Waiting:       11   13   2.2     12      37
+Total:         11   13   2.2     13      37
+
+Percentage of the requests served within a certain time (ms)
+  50%     13
+  66%     13
+  75%     13
+  80%     13
+  90%     14
+  95%     16
+  98%     18
+  99%     22
+ 100%     37 (longest request)
 ```
