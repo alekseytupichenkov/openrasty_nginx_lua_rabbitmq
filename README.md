@@ -23,6 +23,7 @@ curl --header "Content-Type: application/json" \
 Performance test, all running on my Mac using docker, so it's not so fast :)
 When I'll deploy this to production server, I'll write about performance on it
 ```bash
+ab -T 'application/json' -n 1000 -p post.json http://127.0.0.1/rabbitmq
 This is ApacheBench, Version 2.3 <$Revision: 1826891 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
